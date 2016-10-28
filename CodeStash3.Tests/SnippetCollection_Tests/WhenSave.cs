@@ -52,12 +52,12 @@ namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
         //
         
         //Use TestInitialize to run code before running each test 
-        [TestInitialize()]
-        public void MyTestInitialize(List<Snippet> snippets)
-        {
-            MockSnippetRepository _repo = new MockSnippetRepository(snippets);
-            SnippetCollection TestSnippetCollection = new SnippetCollection(_repo);
-        }
+        //[TestInitialize()]
+        //public void MyTestInitialize(List<Snippet> snippets)
+        //{
+        //    MockSnippetRepository _repo = new MockSnippetRepository(snippets);
+        //    SnippetCollection TestSnippetCollection = new SnippetCollection(_repo);
+        //}
         //
         // Use TestCleanup to run code after each test has run
         // [TestCleanup()]
@@ -71,6 +71,7 @@ namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
             MockSnippetRepository _repo = new MockSnippetRepository(null);
             SnippetCollection snippetCollection = new SnippetCollection(_repo);
             snippetCollection.UpdateAllSnippets(null);
+            //Assert.IsTrue(_repo.GetAllSnippetsWasCalled); // make it fail
             Assert.IsTrue(_repo.UpdateWasCalled);
         }
 
@@ -82,45 +83,13 @@ namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
             SnippetCollection snippetCollection = new SnippetCollection(_repo);
             List<Snippet> newSnippets = Mother.GetSnippets();
             snippetCollection.UpdateAllSnippets(newSnippets);
+            //bool result = newSnippets.Equals("bubu"); // make it fail
+            bool result = newSnippets.Equals(_repo.Snippets);
+            Assert.IsTrue(result);
 
         }
     }
 
-    class MockSnippetRepository : ISnippetRepository
-    {
-        public bool UpdateWasCalled = false;
-        public List<Snippet> Snippets;// = Mother.GetSnippets();
-        public bool GetAllSnippetsWasCalled = false;
 
-        public MockSnippetRepository(List<Snippet> snippets)
-        {
-            Snippets = snippets;
-        }
-        public List<Snippet> GetAllSnippets()
-        {
-            GetAllSnippetsWasCalled = true;
-            return Snippets;
-        }
 
-        public void UpdateAllSnippets(List<Snippet> snippets)
-        {
-            UpdateWasCalled = true;
-            Snippets = snippets;
-        }
-    }
-
-    public class Mother
-    {
-        public static List<Snippet> GetSnippets()
-        {
-            List<Snippet> Snippets = new List<Snippet>()
-            {
-                new Snippet() { Title = "item1", Language = "C", Code = "some C code\nnewline" },
-                new Snippet() { Title = "item2", Language = "C++", Code = "some C++ code" },
-                new Snippet() { Title = "item3", Language = "C#", Code = "some C# code" }
-            };
-
-            return Snippets;
-        }
-    }
 }

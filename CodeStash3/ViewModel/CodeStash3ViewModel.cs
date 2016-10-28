@@ -14,43 +14,19 @@ namespace CodeStash3.ViewModel
 {
     public class CodeStash3ViewModel : ICodeStash3ViewModel, INotifyPropertyChanged
     {
+        private List<Snippet> _snippetsFromDAL;
+        private ObservableCollection<Snippet> _snippets;
+        SnippetRepository repo;
+        SnippetCollection snippetCollection;
 
         public CodeStash3ViewModel()
         {
-            //SnippetRepository repo = new SnippetRepository();
-            //SnippetCollection snippetCollection = new SnippetCollection(repo);
-            //List<Snippet> listOfSnippets = snippetCollection.GetAllSnippets();
-            //foreach(var item in listOfSnippets)
-            //{
-            //    _snippets.Add(item);
-            //}
-            _snippets = new ObservableCollection<Snippet> {
-                    //new Snippet() { Title = "item1", Language = "C", Code = new StringBuilder("some C code") },
-                    //new Snippet() { Title = "item2", Language = "C++", Code =  new StringBuilder("some C++ code")},
-                    //new Snippet() { Title = "item3", Language = "C#", Code =  new StringBuilder("some C# code")} };
-                    new Snippet() { Title = "item1", Language = "C", Code = "some C code\nnewline" },
-                    new Snippet() { Title = "item2", Language = "C++", Code = "some C++ code" },
-                    new Snippet() { Title = "item3", Language = "C#", Code = "some C# code" } };
-
-            _snippetsFromDAL = new List<Snippet> {new Snippet() { Title = "item1", Language = "C", Code = "some C code\nnewline" },
-                    new Snippet() { Title = "item2", Language = "C++", Code = "some C++ code" },
-                    new Snippet() { Title = "item3", Language = "C#", Code = "some C# code" }  };
-
+            repo = new SnippetRepository();
+            snippetCollection = new SnippetCollection(repo);
+            _snippetsFromDAL = snippetCollection.GetAllSnippets();
+            _snippets = new ObservableCollection<Snippet>(_snippetsFromDAL);
         }
 
-        void AdfdsfsdCommand(object sender, ExecutedRoutedEventArgs e)
-        {
-            Snippet newSnippet = new Snippet() { Title = "New snippet" };
-            Snippets.Add(newSnippet);
-        }
-
-        private void LoadSnippets()
-        {
-
-        }
-
-        private ObservableCollection<Snippet> _snippets;
-        private List<Snippet> _snippetsFromDAL;
         public ObservableCollection<Snippet> Snippets
         {
             get
@@ -97,7 +73,7 @@ namespace CodeStash3.ViewModel
         public void SaveSnippet()
         {
             _snippetsFromDAL = _snippets.ToList();
-            //TODO  SaveSnippet to DAL
+            snippetCollection.UpdateAllSnippets(_snippetsFromDAL);
         }
 
         public void DiscardChanges()

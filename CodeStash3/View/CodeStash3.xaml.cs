@@ -53,7 +53,6 @@ namespace CodeStash3
 
         private void textBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("Save changes?", "Save snippet");
             if (snippetChanged)
             {
                 MessageBoxResult result = MessageBox.Show(this, "Save changes?", "Save snippet", MessageBoxButton.OKCancel);
@@ -77,6 +76,14 @@ namespace CodeStash3
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             snippetChanged = true;
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(snippetChanged)
+            {
+                viewModelIF.SaveSnippet();
+            }
         }
     }
     public class noConverter : IValueConverter

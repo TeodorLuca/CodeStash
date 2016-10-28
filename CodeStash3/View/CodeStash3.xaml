@@ -39,7 +39,7 @@
                     Command="ApplicationCommands.New"/>
             <Button x:Name="deleteButton" Content="Delete" Height="20" Margin="30,10,0,0" VerticalAlignment="Top" Width="55" HorizontalAlignment="Right"/>
         </StackPanel>
-        <Button x:Name="saveButton" Content="Save" Grid.Column="1" HorizontalAlignment="Center" Height="20" Margin="175,10" Grid.Row="2" VerticalAlignment="Top" Width="55"/>
+        <Button x:Name="saveButton" Content="Save" Grid.Column="1" HorizontalAlignment="Center" Height="20" Margin="175,10" Grid.Row="2" VerticalAlignment="Top" Width="55" Click="saveButton_Click"/>
 
     </Grid>
 </Window>
