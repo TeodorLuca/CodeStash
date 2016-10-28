@@ -32,22 +32,13 @@ namespace CodeStash3.DAL
 
         
 
-        public void AddSnippet(Snippet snippet)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteSnippet(Snippet snippet)
-        {
-            throw new NotImplementedException();
-        }
 
         public List<Snippet> GetAllSnippets()
         {
             return new List<Snippet>();
         }
 
-        public void UpdateSnippet(Snippet snippet)
+        public void UpdateAllSnippets(List<Snippet> snippets)
         {
             throw new NotImplementedException();
         }

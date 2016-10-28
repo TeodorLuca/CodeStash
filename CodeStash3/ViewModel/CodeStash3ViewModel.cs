@@ -14,7 +14,7 @@ namespace CodeStash3.ViewModel
 {
     public class CodeStash3ViewModel : ICodeStash3ViewModel, INotifyPropertyChanged
     {
-        
+
         public CodeStash3ViewModel()
         {
             //SnippetRepository repo = new SnippetRepository();
@@ -40,13 +40,13 @@ namespace CodeStash3.ViewModel
 
         void AdfdsfsdCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            Snippet newSnippet = new Snippet() { Title = "New snippet"};
+            Snippet newSnippet = new Snippet() { Title = "New snippet" };
             Snippets.Add(newSnippet);
         }
 
         private void LoadSnippets()
         {
-            
+
         }
 
         private ObservableCollection<Snippet> _snippets;
@@ -64,7 +64,7 @@ namespace CodeStash3.ViewModel
                 RaisePropertyChanged("Snippets");
             }
         }
-               
+
         private Snippet _selectedSnippet;
         public Snippet SelectedSnippet
         {
@@ -80,7 +80,7 @@ namespace CodeStash3.ViewModel
             }
         }
 
-       
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void RaisePropertyChanged(string propertyName)

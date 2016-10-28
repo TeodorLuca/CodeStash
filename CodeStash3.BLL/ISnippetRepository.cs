@@ -8,9 +8,7 @@ namespace CodeStash3.BLL
 {
     public interface ISnippetRepository
     {
-        void AddSnippet(Snippet snippet);
-        void DeleteSnippet(Snippet snippet);
-        void UpdateSnippet(Snippet snippet);
+        void UpdateAllSnippets(List<Snippet> snippets);
         List<Snippet> GetAllSnippets();
     }
 }

@@ -6,8 +6,8 @@
     <ProjectGuid>{34537B22-F6B3-4C60-BEA6-F69E01D1C71D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeStash3.Tests</RootNamespace>
-    <AssemblyName>CodeStash3.Tests</AssemblyName>
+    <RootNamespace>CodeStash3.BLL_Tests</RootNamespace>
+    <AssemblyName>CodeStash3.BLL_Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -45,13 +45,21 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="SnippetCollection_Tests\WhenSave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeStash3.BLL\CodeStash3.BLL.csproj">
+      <Project>{5236eb1d-2c5a-4088-8557-0a1646d2c6f0}</Project>
+      <Name>CodeStash3.BLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

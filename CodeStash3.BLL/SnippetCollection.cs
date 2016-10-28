@@ -14,24 +14,16 @@ namespace CodeStash3.BLL
         {
             _repo = repo;
         }
-        public void AddSnippet(Snippet snippet)
-        {
-            _repo.AddSnippet(snippet);
-        }
-
-        public void DeleteSnippet(Snippet snippet)
-        {
-            _repo.DeleteSnippet(snippet);
-        }
-
+        
+        
         public List<Snippet> GetAllSnippets()
         {
             return _repo.GetAllSnippets();
         }
 
-        public void UpdateSnippet(Snippet snippet)
+        public void UpdateAllSnippets(List<Snippet> snippets)
         {
-            _repo.UpdateSnippet(snippet);
+            _repo.UpdateAllSnippets(snippets);
         }
         
     }
