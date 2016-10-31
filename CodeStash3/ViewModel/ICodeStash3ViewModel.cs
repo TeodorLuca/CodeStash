@@ -13,12 +13,13 @@ namespace CodeStash3.ViewModel
     {
         ObservableCollection<Snippet> Snippets { set; get; }
         Snippet SelectedSnippet { set; get; }
+        List<string> Languages { set; get; }
 
         void AddSnippet(string name);
         void SaveSnippet();
         void DiscardChanges();
-        //ICommand DeleteCommand { set; get; }
-        //ICommand SaveCommand { set; get; }
-        //ICommand LoadCommand { set; get; }
+        void DeleteSnippet();
+        void AddLanguage(string text);
+        void ChangeLanguage(string text);
     }
 }

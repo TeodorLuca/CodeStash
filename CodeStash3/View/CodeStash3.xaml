@@ -6,12 +6,14 @@
         xmlns:local="clr-namespace:CodeStash3"
         xmlns:viewModel="clr-namespace:CodeStash3.ViewModel"
         mc:Ignorable="d"
-        Title="CodeStash3" Height="480" Width="640">
+        Title="CodeStash3" Height="480" Width="640" Closing="Window_Closing">
     <!--<Window.DataContext>
         <viewModel:CodeStash3ViewModel/>
     </Window.DataContext>-->
     <Window.Resources>
         <local:noConverter x:Key="noConverter"></local:noConverter>
+        <local:nullToBoolConverter x:Key="nullToBoolConverter"></local:nullToBoolConverter>
+        <local:LanguageToIndexConverter x:Key="languageToIndexConverter"></local:LanguageToIndexConverter>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -23,23 +25,88 @@
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="languageComboBox" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="10" Width="100"/>
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
-            <TextBox x:Name="searchTextBox" Height="20" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="Search Snippet" Margin="10,10,0,10" Width="140" />
+        <ComboBox x:Name="languageComboBox" Grid.Column="1" 
+                  HorizontalAlignment="Left" 
+                  Height="20" 
+                  Margin="10" 
+                  Width="100" 
+                  ItemsSource="{Binding Languages, Mode=TwoWay}"
+                  IsEditable="True" 
+                  IsSynchronizedWithCurrentItem="True"
+                  StaysOpenOnEdit="True" KeyDown="languageComboBox_KeyDown" 
+                  DropDownOpened="languageComboBox_DropDownOpened" 
+                  DropDownClosed="languageComboBox_DropDownClosed">
+            <ComboBox.SelectedIndex>
+                <MultiBinding Converter="{StaticResource languageToIndexConverter}" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="SelectedSnippet.Language" Mode="OneWay" UpdateSourceTrigger="PropertyChanged"/>
+                    <Binding RelativeSource="{RelativeSource Mode=Self}" Mode="OneWay"  Path="Items" />
+                </MultiBinding>
+            </ComboBox.SelectedIndex>
+        </ComboBox>
+
+        <StackPanel HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Orientation="Horizontal">
+            <TextBox x:Name="searchTextBox" 
+                     Height="20" 
+                     HorizontalAlignment="Stretch" 
+                     TextWrapping="Wrap" 
+                     Text="Search Snippet" 
+                     Margin="10,10,0,10" 
+                     Width="140" />
         </StackPanel>
-        <ListView x:Name="listView" Margin="10,0,0,0" Grid.Row="1" ItemsSource="{Binding Snippets, Mode=TwoWay}" DisplayMemberPath="Title" 
-                  SelectedItem="{Binding SelectedSnippet, Mode=TwoWay, Converter={StaticResource noConverter}}">
-            
+        <ListView x:Name="listView" 
+                  Margin="10,0,0,0" 
+                  Grid.Row="1" 
+                  ItemsSource="{Binding Snippets, Mode=TwoWay}" 
+                  DisplayMemberPath="Title" 
+                  SelectedItem="{Binding SelectedSnippet, Mode=TwoWay}" SelectionChanged="listView_SelectionChanged">
+
         </ListView>
-        <TextBox x:Name="textBox" Grid.Column="1" Grid.Row="1" Margin="10,0" AcceptsTab="True" AcceptsReturn="True" Text ="{Binding SelectedSnippet.Code, Converter={StaticResource noConverter}, UpdateSourceTrigger=PropertyChanged}" LostFocus="textBox_LostFocus" GotFocus="textBox_GotFocus" TextChanged="textBox_TextChanged">
-                    
+        <TextBox x:Name="textBox" 
+                 Grid.Column="1" 
+                 Grid.Row="1" 
+                 Margin="10,0" 
+                 AcceptsTab="True" 
+                 AcceptsReturn="True" 
+                 Text ="{Binding SelectedSnippet.Code, UpdateSourceTrigger=PropertyChanged}" 
+                 TextChanged="textBox_TextChanged" GotFocus="textBox_GotFocus" LostFocus="textBox_LostFocus">
+
         </TextBox>
-        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal" Grid.Column="0" Grid.Row="2">
-            <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Height="20" Margin="10,10,0,10" Grid.Row="2" VerticalAlignment="Top" Width="55" 
+        <StackPanel HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Orientation="Horizontal" 
+                    Grid.Column="0" 
+                    Grid.Row="2">
+            <Button x:Name="addButton" 
+                    Content="Add" 
+                    HorizontalAlignment="Left" 
+                    Height="20" 
+                    Margin="10,10,0,10" 
+                    Grid.Row="2" 
+                    VerticalAlignment="Top" 
+                    Width="55" 
                     Command="ApplicationCommands.New"/>
-            <Button x:Name="deleteButton" Content="Delete" Height="20" Margin="30,10,0,0" VerticalAlignment="Top" Width="55" HorizontalAlignment="Right"/>
+            <Button x:Name="deleteButton" 
+                    Content="Delete" 
+                    Height="20" 
+                    Margin="30,10,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="55" 
+                    HorizontalAlignment="Right" 
+                    IsEnabled="{Binding SelectedSnippet, Converter={StaticResource nullToBoolConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                    Click="deleteButton_Click"/>
         </StackPanel>
-        <Button x:Name="saveButton" Content="Save" Grid.Column="1" HorizontalAlignment="Center" Height="20" Margin="175,10" Grid.Row="2" VerticalAlignment="Top" Width="55" Click="saveButton_Click"/>
+        <Button x:Name="saveButton" 
+                Content="Save" 
+                Grid.Column="1" 
+                HorizontalAlignment="Center" 
+                Height="20" 
+                Margin="175,10" 
+                Grid.Row="2" 
+                VerticalAlignment="Top" 
+                Width="55" 
+                Click="saveButton_Click"/>
 
     </Grid>
 </Window>

@@ -14,6 +14,7 @@ namespace CodeStash3.View
             //CommandBinding binding = new CommandBinding(ApplicationCommands.New);
             //binding.Executed += ExecuteOKCommand;
             //this.CommandBindings.Add(binding);
+            this.textBox.Focus();
 
 
         }

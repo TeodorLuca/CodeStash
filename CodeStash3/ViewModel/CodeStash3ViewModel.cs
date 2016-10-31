@@ -16,8 +16,10 @@ namespace CodeStash3.ViewModel
     {
         private List<Snippet> _snippetsFromDAL;
         private ObservableCollection<Snippet> _snippets;
+        private List<string> _languages;
         SnippetRepository repo;
         SnippetCollection snippetCollection;
+        
 
         public CodeStash3ViewModel()
         {
@@ -25,6 +27,7 @@ namespace CodeStash3.ViewModel
             snippetCollection = new SnippetCollection(repo);
             _snippetsFromDAL = snippetCollection.GetAllSnippets();
             _snippets = new ObservableCollection<Snippet>(_snippetsFromDAL);
+            _languages = new LanguageCollection(_snippetsFromDAL).GenerateLanguageList();
         }
 
         public ObservableCollection<Snippet> Snippets
@@ -56,6 +59,19 @@ namespace CodeStash3.ViewModel
             }
         }
 
+        public List<string> Languages
+        {
+            get
+            {
+                return _languages;
+            }
+
+            set
+            {
+                _languages = value;
+                RaisePropertyChanged("Languages");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -79,6 +95,22 @@ namespace CodeStash3.ViewModel
         public void DiscardChanges()
         {
             Snippets = new ObservableCollection<Snippet>(_snippetsFromDAL);
+        }
+
+        public void DeleteSnippet()
+        {
+            Snippets.Remove(SelectedSnippet);
+            SaveSnippet();
+        }
+
+        public void AddLanguage(string text)
+        {
+            Languages.Add(text);
+        }
+
+        public void ChangeLanguage(string text)
+        {
+            SelectedSnippet.Language = text;
         }
     }
 }

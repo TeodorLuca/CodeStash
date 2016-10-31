@@ -31,5 +31,6 @@ namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
             //Assert.IsTrue(String.Equals(curent, "bubu")); // make it fail
             Assert.IsTrue(String.Equals(curent, expected));
         }
+
     }
 }

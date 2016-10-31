@@ -25,6 +25,6 @@ namespace CodeStash3.BLL
         {
             _repo.UpdateAllSnippets(snippets);
         }
-        
+
     }
 }

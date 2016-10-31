@@ -15,10 +15,16 @@ namespace CodeStash3.BLL_Tests
             {
                 new Snippet() { Title = "item1", Language = "C", Code = "some C code\nnewline" },
                 new Snippet() { Title = "item2", Language = "C++", Code = "some C++ code" },
-                new Snippet() { Title = "item3", Language = "C#", Code = "some C# code" }
+                new Snippet() { Title = "item3", Language = "C#", Code = "some C# code" },
+                new Snippet() { Title = "item4", Language = "C++", Code = "some other C# code" }
             };
 
             return Snippets;
+        }
+
+        public static List<string> GetLanguageList()
+        {
+            return new List<string>() { "C", "C++", "C#" };
         }
     }
 }

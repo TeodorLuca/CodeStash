@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISnippetRepository.cs" />
+    <Compile Include="LanguageCollection.cs" />
     <Compile Include="Snippet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SnippetCollection.cs" />

@@ -1,0 +1,5 @@
+The list of languages doesn't check for null language field, so null element will appear in the list
+add new snippet will not change the focus to the new added snippet in the list
+there is no protection to check that language property is not null
+there is no protection to force code property is not null
+
