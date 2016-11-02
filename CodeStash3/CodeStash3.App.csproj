@@ -68,6 +68,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\LanguageCollection.cs" />
+    <Compile Include="Model\Snippet.cs" />
+    <Compile Include="Model\SnippetCollection.cs" />
     <Compile Include="ViewModel\CodeStash3ViewModel.cs" />
     <Compile Include="ViewModel\ICodeStash3ViewModel.cs" />
     <Compile Include="View\AddSnippetWindow.xaml.cs">

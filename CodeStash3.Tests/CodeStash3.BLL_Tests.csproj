@@ -64,6 +64,10 @@
       <Project>{5236eb1d-2c5a-4088-8557-0a1646d2c6f0}</Project>
       <Name>CodeStash3.BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeStash3.DAL\CodeStash3.DAL.csproj">
+      <Project>{7B4AA5B0-20D4-468B-8E49-3696C111A6DB}</Project>
+      <Name>CodeStash3.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

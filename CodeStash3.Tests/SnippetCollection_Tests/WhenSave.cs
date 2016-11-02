@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CodeStash3.BLL;
-
+using CodeStash3.DAL;
 
 namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
 {
@@ -68,24 +68,26 @@ namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
         [TestMethod]
         public void ThenTheRepositoryUpdateMethodIsCalled()
         {
-            MockSnippetRepository _repo = new MockSnippetRepository(null);
+            MockSnippetRepository _repo = new MockSnippetRepository(new List<Snippet>());
             SnippetCollection snippetCollection = new SnippetCollection(_repo);
-            snippetCollection.UpdateAllSnippets(null);
+            snippetCollection.Save();
             //Assert.IsTrue(_repo.GetAllSnippetsWasCalled); // make it fail
             Assert.IsTrue(_repo.UpdateWasCalled);
         }
 
+
+        //integration test
         [TestMethod]
         public void ThenTheContentIsPersistentInFile()
         {
-            
-            MockSnippetRepository _repo = new MockSnippetRepository(null);
+            SnippetRepository _repo = new SnippetRepository();
             SnippetCollection snippetCollection = new SnippetCollection(_repo);
-            List<Snippet> newSnippets = Mother.GetSnippets();
-            snippetCollection.UpdateAllSnippets(newSnippets);
-            //bool result = newSnippets.Equals("bubu"); // make it fail
-            bool result = newSnippets.Equals(_repo.Snippets);
-            Assert.IsTrue(result);
+            Snippet testSnippet = new Snippet() { Code = "test code", Title = "Test Snippet", Language = "Test Language" };
+            snippetCollection.Add(testSnippet);
+            snippetCollection.Save();
+            List<Snippet> currentRepo = _repo.GetAllSnippets();
+            Assert.IsTrue(currentRepo.Contains(new Snippet() {Title = "fake", Code = "fake", Language = "fake" })); // make test fail
+            Assert.IsTrue(currentRepo.Contains(testSnippet));
 
         }
     }

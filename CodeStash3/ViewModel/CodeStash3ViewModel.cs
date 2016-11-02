@@ -5,41 +5,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using CodeStash3.BLL;
+using CodeStash3.Model;
 using CodeStash3.DAL;
 using System.ComponentModel;
 using System.Windows;
+
 
 namespace CodeStash3.ViewModel
 {
     public class CodeStash3ViewModel : ICodeStash3ViewModel, INotifyPropertyChanged
     {
-        private List<Snippet> _snippetsFromDAL;
-        private ObservableCollection<Snippet> _snippets;
+        private List<Snippet> _snippetsOriginal;
+        private ObservableCollection<Snippet> _dirtySnippetsCollection;
         private List<string> _languages;
-        SnippetRepository repo;
-        SnippetCollection snippetCollection;
         
 
         public CodeStash3ViewModel()
         {
-            repo = new SnippetRepository();
-            snippetCollection = new SnippetCollection(repo);
-            _snippetsFromDAL = snippetCollection.GetAllSnippets();
-            _snippets = new ObservableCollection<Snippet>(_snippetsFromDAL);
-            _languages = new LanguageCollection(_snippetsFromDAL).GenerateLanguageList();
+            SnippetRepository snippetRepository;
+            BLL.SnippetCollection bllSnippetCollection;
+
+            snippetRepository = new SnippetRepository();
+            bllSnippetCollection = new BLL.SnippetCollection(snippetRepository);
+
+            _snippetsOriginal = new SnippetCollection(bllSnippetCollection).ToList();
+            _dirtySnippetsCollection = new ObservableCollection<Snippet>(_snippetsOriginal);
+            _languages = new LanguageCollection(_snippetsOriginal).GenerateLanguageList();
         }
 
-        public ObservableCollection<Snippet> Snippets
+        public ObservableCollection<Snippet> DirtySnippetsCollection
         {
             get
             {
-                return _snippets;
+                return _dirtySnippetsCollection;
             }
 
             set
             {
-                _snippets = value;
+                _dirtySnippetsCollection = value;
                 RaisePropertyChanged("Snippets");
             }
         }
@@ -83,23 +86,23 @@ namespace CodeStash3.ViewModel
 
         public void AddSnippet(string name)
         {
-            Snippets.Add(new Snippet() { Title = name });
+            DirtySnippetsCollection.Add(new Snippet() { Title = name });
         }
 
         public void SaveSnippet()
         {
-            _snippetsFromDAL = _snippets.ToList();
-            snippetCollection.UpdateAllSnippets(_snippetsFromDAL);
+            _snippetsOriginal = _dirtySnippetsCollection.ToList();
+            snippetCollection.UpdateAllSnippets(_snippetsOriginal);
         }
 
         public void DiscardChanges()
         {
-            Snippets = new ObservableCollection<Snippet>(_snippetsFromDAL);
+            DirtySnippetsCollection = new ObservableCollection<Snippet>(_snippetsOriginal);
         }
 
         public void DeleteSnippet()
         {
-            Snippets.Remove(SelectedSnippet);
+            DirtySnippetsCollection.Remove(SelectedSnippet);
             SaveSnippet();
         }
 

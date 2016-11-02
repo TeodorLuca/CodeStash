@@ -11,5 +11,10 @@ namespace CodeStash3.BLL
         public string Code { get; set; }
         public String Language { get; set; }
         public String Title { get; set; }
+
+        //public GenerateFormattedRichText()
+        //{
+        //    
+        //}
     }
 }
