@@ -11,10 +11,10 @@ namespace CodeStash3.Model
     {
         public SnippetCollection(BLL.SnippetCollection snippetCollection)
         {
-            foreach (var snippet in snippetCollection)
-            {
-                this.Add(new Snippet(snippet));
-            }
+            //foreach (BLL.Snippet snippet in snippetCollection)
+            //{
+            //    this.Add(new Snippet(snippet));
+            //}
         }
     }
 }

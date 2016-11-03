@@ -8,9 +8,10 @@ namespace CodeStash3.Model
 {
     public class LanguageCollection:List<string>
     {
-        public LanguageCollection(BLL.LanguageCollection languageCollection)
+
+        public LanguageCollection(List<string> languageCollection)
         {
-            this.AddRange(languageCollection
+            this.AddRange(languageCollection);
         }
     }
 }

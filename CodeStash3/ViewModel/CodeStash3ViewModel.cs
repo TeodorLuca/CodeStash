@@ -17,20 +17,21 @@ namespace CodeStash3.ViewModel
     {
         private List<Snippet> _snippetsOriginal;
         private ObservableCollection<Snippet> _dirtySnippetsCollection;
-        private List<string> _languages;
-        
+        private LanguageCollection _languages;
+        private BLL.SnippetCollection bllSnippetCollection;
+
 
         public CodeStash3ViewModel()
         {
             SnippetRepository snippetRepository;
-            BLL.SnippetCollection bllSnippetCollection;
 
             snippetRepository = new SnippetRepository();
             bllSnippetCollection = new BLL.SnippetCollection(snippetRepository);
 
             _snippetsOriginal = new SnippetCollection(bllSnippetCollection).ToList();
             _dirtySnippetsCollection = new ObservableCollection<Snippet>(_snippetsOriginal);
-            _languages = new LanguageCollection(_snippetsOriginal).GenerateLanguageList();
+            _languages = new LanguageCollection(new BLL.LanguageCollection(bllSnippetCollection.ToList()).GenerateLanguageList());
+
         }
 
         public ObservableCollection<Snippet> DirtySnippetsCollection
@@ -66,12 +67,12 @@ namespace CodeStash3.ViewModel
         {
             get
             {
-                return _languages;
+                return _languages.ToList();
             }
 
             set
             {
-                _languages = value;
+                _languages.AddRange(value);
                 RaisePropertyChanged("Languages");
             }
         }
@@ -92,7 +93,8 @@ namespace CodeStash3.ViewModel
         public void SaveSnippet()
         {
             _snippetsOriginal = _dirtySnippetsCollection.ToList();
-            snippetCollection.UpdateAllSnippets(_snippetsOriginal);
+            bllSnippetCollection.Save();
+            
         }
 
         public void DiscardChanges()
