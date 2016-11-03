@@ -8,6 +8,9 @@ namespace CodeStash3.Model
         public String Language { get; set; }
         public String Title { get; set; }
 
+        public Snippet()
+        {
+        }
         public Snippet(BLL.Snippet snippet)
         {
             //TOOD: clone

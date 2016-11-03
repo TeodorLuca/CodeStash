@@ -58,7 +58,7 @@
         <ListView x:Name="listView" 
                   Margin="10,0,0,0" 
                   Grid.Row="1" 
-                  ItemsSource="{Binding Snippets, Mode=TwoWay}" 
+                  ItemsSource="{Binding DirtySnippetsCollection, Mode=TwoWay}" 
                   DisplayMemberPath="Title" 
                   SelectedItem="{Binding SelectedSnippet, Mode=TwoWay}" SelectionChanged="listView_SelectionChanged">
 

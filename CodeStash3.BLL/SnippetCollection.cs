@@ -39,10 +39,10 @@ namespace CodeStash3.BLL
         }
 
 
-        public void Save()
-        {
-            _repo.UpdateAllSnippets(this);
-        }
+        //public void Save()
+        //{
+        //    _repo.UpdateAllSnippets(this);
+        //}
         
         
         //public List<Snippet> GetAllSnippets()

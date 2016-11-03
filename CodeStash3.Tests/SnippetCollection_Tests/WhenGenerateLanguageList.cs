@@ -13,8 +13,7 @@ namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
         {
             MockSnippetRepository _repo = new MockSnippetRepository(Mother.GetSnippets());
             SnippetCollection snippetCollection = new SnippetCollection(_repo);
-            List<Snippet> fromRepoSnippets = snippetCollection.GetAllSnippets();
-            LanguageCollection languageCollection = new LanguageCollection(fromRepoSnippets);
+            LanguageCollection languageCollection = new LanguageCollection(snippetCollection);
             List<string> listOfLanguageTypes = languageCollection.GenerateLanguageList();
             listOfLanguageTypes.Sort();
             string current = listOfLanguageTypes.ToString();

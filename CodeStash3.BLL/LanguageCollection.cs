@@ -7,7 +7,7 @@ namespace CodeStash3.BLL
     public class LanguageCollection
     {
         private List<Snippet> snippets;
-        public LanguageCollection(List<Snippet> snippets)
+        public LanguageCollection(SnippetCollection snippets)
         {
             this.snippets = snippets;
         }
