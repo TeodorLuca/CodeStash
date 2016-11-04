@@ -1,36 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using CodeStash3.BLL;
-using System.Web.Script.Serialization;
-using System.IO;
 using CodeStash3.DAL.Properties;
 
 namespace CodeStash3.DAL
 {
     public class SnippetRepository : ISnippetRepository
     {
+        private ISnippetRepository repository;
+        public SnippetRepository()
+        {
+            string repositoryType = Settings.Default.repoType;
+            switch (repositoryType)
+            {
+                case "json": { repository = new JsonSnippetRepository(); break; }
+                case "sql" : { repository = new SqlSnippetRepository(); break; }
+                default: throw new NotImplementedException();
+            }
 
-        string dbFileName = Settings.Default.jsonDB;
+        }
 
         public List<Snippet> GetAllSnippets()
         {
-            string snippetStr = File.ReadAllText(dbFileName);
-            List<Snippet> snippets = new JavaScriptSerializer().Deserialize<List<Snippet>>(snippetStr);
-            return snippets;
+            return repository.GetAllSnippets();
         }
-
-        
 
         public void UpdateAllSnippets(List<Snippet> snippets)
         {
-            string json = new JavaScriptSerializer().Serialize(snippets);
-            File.WriteAllText(dbFileName, json);
+            repository.UpdateAllSnippets(snippets);
         }
-
-
-
-        //GetSnippet(int id)
-        //DeleteSnippet(int id)
-        //DeleteSnippet(Snippet snippet);
-        //SaveSnippet(Snippet snippet); //create if not exists; or update if exists
     }
 }

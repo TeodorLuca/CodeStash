@@ -14,7 +14,18 @@ namespace CodeStash3.BLL
         public SnippetCollection(ISnippetRepository repo)
         {
             _repo = repo;
+            //List<Snippet> snippets = new List<Snippet>();
+            //snippets = _repo.GetAllSnippets();
+            //if (snippets != null)
+            //{
+            //    this.AddRange(snippets);
+            //}
             this.AddRange(_repo.GetAllSnippets());
+            
+        }
+
+        public SnippetCollection()
+        {
         }
 
         //other uses for 

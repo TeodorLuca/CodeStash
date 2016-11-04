@@ -61,6 +61,7 @@
     <Compile Include="SnippetCollection_Tests\MockSnippetRepository.cs" />
     <Compile Include="SnippetCollection_Tests\WhenGenerateLanguageList.cs" />
     <Compile Include="SnippetCollection_Tests\WhenLoad.cs" />
+    <Compile Include="SnippetCollection_Tests\WhenRepoReturnNullList.cs" />
     <Compile Include="SnippetCollection_Tests\WhenSave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

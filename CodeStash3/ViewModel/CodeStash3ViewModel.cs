@@ -87,7 +87,9 @@ namespace CodeStash3.ViewModel
 
         public void AddSnippet(string name)
         {
-            DirtySnippetsCollection.Add(new Snippet() { Title = name });
+            Snippet snippet = new Snippet() { Title = name };
+            DirtySnippetsCollection.Add(snippet);
+            SelectedSnippet = snippet;
         }
 
         public void SaveSnippet()
@@ -98,7 +100,7 @@ namespace CodeStash3.ViewModel
 
             //SnippetCollection sc = new SnippetCollection(snippetRepo);
             SnippetRepository snippetRepository = new SnippetRepository();
-            BLL.SnippetCollection bllSnippetCollection = new BLL.SnippetCollection(snippetRepository);
+            BLL.SnippetCollection bllSnippetCollection = new BLL.SnippetCollection();
 
             //bllSnippetCollection.Clear();
             foreach (Snippet s in _dirtySnippetsCollection)

@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Extensions" />
@@ -46,8 +47,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="SnippetRepository.cs" />
+    <Compile Include="JsonSnippetRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SnippetRepository.cs" />
+    <Compile Include="SqlSnippetRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeStash3.BLL\CodeStash3.BLL.csproj">
