@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CodeStash3.BLL;
 using System.Data.SqlClient;
 using System.Windows;
@@ -11,17 +8,26 @@ namespace CodeStash3.DAL
 {
     public class SqlSnippetRepository : ISnippetRepository
     {
-        SqlConnection connection = new SqlConnection("server=LAPTOP\\SQLEXPRESS;" +
-                                                       "Trusted_Connection=yes;" +
-                                                       "database=CodeStash; " +
-                                                       "connection timeout=5");
-        SqlCommand command = new SqlCommand();
+        SqlConnection connection;
+        SqlCommand command;
         SqlDataReader reader;
+
+        public SqlSnippetRepository()
+        {
+            connection = new SqlConnection("server=LAPTOP\\SQLEXPRESS;" +
+                                           "Trusted_Connection=yes;" +
+                                           "database=CodeStash; " +
+                                           "connection timeout=5");
+            command = new SqlCommand();
+        }
+
         public List<Snippet> GetAllSnippets()
         {
             List<Snippet> snippetList = new List<Snippet>();
+
             OpenConnection();
             command.Connection = connection;
+
             command.CommandText = "SELECT * FROM Snippets ORDER BY Title ASC";
             if (null != command.ExecuteScalar())
             {
@@ -56,6 +62,7 @@ namespace CodeStash3.DAL
         public void UpdateAllSnippets(List<Snippet> snippets)
         {
             OpenConnection();
+
             foreach (var snippet in snippets)
             {
                 command.CommandText = String.Format("SELECT * FROM Snippets WHERE Title = '{0}';", snippet.Title);

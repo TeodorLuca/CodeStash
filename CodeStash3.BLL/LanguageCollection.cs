@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace CodeStash3.BLL
@@ -16,7 +15,6 @@ namespace CodeStash3.BLL
         {
             List<string> languages = snippets.Select(x => x.Language).ToList();
             return languages.Distinct().ToList();
-            
         }
     }
 }

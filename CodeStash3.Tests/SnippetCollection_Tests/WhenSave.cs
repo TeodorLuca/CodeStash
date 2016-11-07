@@ -1,70 +1,35 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CodeStash3.BLL;
 using CodeStash3.DAL;
 
 namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
 {
-    /// <summary>
-    /// Summary description for WhenSave
-    /// </summary>
     [TestClass]
     public class WhenSave
     {
-        public WhenSave()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        static string originalValueJsonDb;
+        static string originalValueRepoType;
 
         #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            originalValueJsonDb = CodeStash3.DAL.Properties.Settings.Default.jsonDB;
+            originalValueRepoType = CodeStash3.DAL.Properties.Settings.Default.repoType;
+            CodeStash3.DAL.Properties.Settings.Default.jsonDB = "testJsonDb.txt";
+            CodeStash3.DAL.Properties.Settings.Default.repoType = "json";
+        }
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            CodeStash3.DAL.Properties.Settings.Default.jsonDB = originalValueJsonDb;
+            CodeStash3.DAL.Properties.Settings.Default.repoType = originalValueRepoType;
+        }
 
-        //Use TestInitialize to run code before running each test 
-        //[TestInitialize()]
-        //public void MyTestInitialize(List<Snippet> snippets)
-        //{
-        //    MockSnippetRepository _repo = new MockSnippetRepository(snippets);
-        //    SnippetCollection TestSnippetCollection = new SnippetCollection(_repo);
-        //}
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
         #endregion
 
+        // for review: this method needs to be deleted. It doesn't make sense anymore because it was supposed to check that repo.Update() method is called when 
+        // snippetCollection.Save() is called, but there is no Save() method anymore; instead the ViewModel calls directly repo.Update()
         //[TestMethod]
         //public void ThenTheRepositoryUpdateMethodIsCalled()
         //{
@@ -81,17 +46,18 @@ namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
         public void ThenTheContentIsPersistentInFile()
         {
             SnippetRepository _repo = new SnippetRepository();
-            SnippetCollection snippetCollection = new SnippetCollection(_repo);
+            SnippetCollection snippetCollection = new SnippetCollection();
+
             Snippet testSnippet = new Snippet() { Code = "test code", Title = "Test Snippet", Language = "Test Language" };
             snippetCollection.Add(testSnippet);
             _repo.UpdateAllSnippets(snippetCollection);
-            List<Snippet> currentRepo = _repo.GetAllSnippets();
-            //Assert.IsTrue(currentRepo.Contains(new Snippet() {Title = "fake", Code = "fake", Language = "fake" })); // make test fail
-            Assert.IsTrue(currentRepo.Contains(testSnippet));
 
+            SnippetCollection actualSnippetCollection = new SnippetCollection();
+            actualSnippetCollection.AddRange(_repo.GetAllSnippets());
+            SnippetCollection expectedSnippetCollection = new SnippetCollection() { testSnippet };
+
+            Assert.AreEqual(actualSnippetCollection.ToString(), expectedSnippetCollection.ToString());
+            Assert.IsTrue(actualSnippetCollection.Count == 1);
         }
     }
-
-
-
 }

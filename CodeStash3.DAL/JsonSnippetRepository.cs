@@ -18,19 +18,10 @@ namespace CodeStash3.DAL
             return snippets;
         }
 
-        
-
         public void UpdateAllSnippets(List<Snippet> snippets)
         {
             string json = new JavaScriptSerializer().Serialize(snippets);
             File.WriteAllText(dbFileName, json);
         }
-
-
-
-        //GetSnippet(int id)
-        //DeleteSnippet(int id)
-        //DeleteSnippet(Snippet snippet);
-        //SaveSnippet(Snippet snippet); //create if not exists; or update if exists
     }
 }

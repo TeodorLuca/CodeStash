@@ -94,27 +94,18 @@ namespace CodeStash3.ViewModel
 
         public void SaveSnippet()
         {
-            //_snippetsOriginal = _dirtySnippetsCollection.ToList();
-            //bllSnippetCollection.Save();
-            //snippetCollection.UpdateAllSnippets(_snippetsCurrent);
-
-            //SnippetCollection sc = new SnippetCollection(snippetRepo);
             SnippetRepository snippetRepository = new SnippetRepository();
             BLL.SnippetCollection bllSnippetCollection = new BLL.SnippetCollection();
 
-            //bllSnippetCollection.Clear();
             foreach (Snippet s in _dirtySnippetsCollection)
             {
                 BLL.Snippet snippet = new BLL.Snippet() { Code = s.Code, Title = s.Title, Language = s.Language };
                 bllSnippetCollection.Add(snippet);
             }
+
             snippetRepository.UpdateAllSnippets(bllSnippetCollection);
 
-
-            //_snippetsOriginal = _snippetsCurrent.ToList(); //TODO: clone, not copy
             _snippetsOriginal = _dirtySnippetsCollection.ToList();
-
-
         }
 
         public void DiscardChanges()

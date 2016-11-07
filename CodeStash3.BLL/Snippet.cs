@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeStash3.BLL
 {
@@ -12,6 +8,11 @@ namespace CodeStash3.BLL
         public String Language { get; set; }
         public String Title { get; set; }
 
+        public override string ToString()
+        {
+            //return String.Format("{0} {1} {2}", Title, Language, Code);
+            return $"{Title} {Language} {Code}";
+        }
         //public GenerateFormattedRichText()
         //{
         //    
