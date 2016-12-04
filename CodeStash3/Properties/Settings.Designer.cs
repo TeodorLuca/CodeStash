@@ -46,5 +46,17 @@ namespace CodeStash3.Properties {
                 this["DB"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("sql")]
+        public string repoType {
+            get {
+                return ((string)(this["repoType"]));
+            }
+            set {
+                this["repoType"] = value;
+            }
+        }
     }
 }

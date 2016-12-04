@@ -5,7 +5,7 @@
     <Setting Name="jsonDB" Type="System.String" Scope="User">
       <Value Profile="(Default)">jsondb.txt</Value>
     </Setting>
-    <Setting Name="repoType" Type="System.String" Scope="User">
+    <Setting Name="vc" Type="System.String" Scope="User">
       <Value Profile="(Default)">sql</Value>
     </Setting>
   </Settings>

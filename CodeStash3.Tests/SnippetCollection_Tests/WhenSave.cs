@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CodeStash3.BLL;
 using CodeStash3.DAL;
+using CodeStash3;
 
 namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
 {
@@ -15,37 +16,24 @@ namespace CodeStash3.BLL_Tests.SnippetCollection_Tests
         public void MyTestInitialize()
         {
             originalValueJsonDb = CodeStash3.DAL.Properties.Settings.Default.jsonDB;
-            originalValueRepoType = CodeStash3.DAL.Properties.Settings.Default.repoType;
+            originalValueRepoType = CodeStash3.DAL.Properties.Settings.Default.vc;
             CodeStash3.DAL.Properties.Settings.Default.jsonDB = "testJsonDb.txt";
-            CodeStash3.DAL.Properties.Settings.Default.repoType = "json";
+            CodeStash3.DAL.Properties.Settings.Default.vc = "json";
         }
         [TestCleanup()]
         public void MyTestCleanup()
         {
             CodeStash3.DAL.Properties.Settings.Default.jsonDB = originalValueJsonDb;
-            CodeStash3.DAL.Properties.Settings.Default.repoType = originalValueRepoType;
+            CodeStash3.DAL.Properties.Settings.Default.vc = originalValueRepoType;
         }
 
         #endregion
-
-        // for review: this method needs to be deleted. It doesn't make sense anymore because it was supposed to check that repo.Update() method is called when 
-        // snippetCollection.Save() is called, but there is no Save() method anymore; instead the ViewModel calls directly repo.Update()
-        //[TestMethod]
-        //public void ThenTheRepositoryUpdateMethodIsCalled()
-        //{
-        //    MockSnippetRepository _repo = new MockSnippetRepository(new List<Snippet>());
-        //    SnippetCollection snippetCollection = new SnippetCollection(_repo);
-        //    snippetCollection.Save();
-        //    Assert.IsTrue(_repo.GetAllSnippetsWasCalled); // make it fail
-        //    Assert.IsTrue(_repo.UpdateWasCalled);
-        //}
-
 
         //integration test
         [TestMethod]
         public void ThenTheContentIsPersistentInFile()
         {
-            SnippetRepository _repo = new SnippetRepository();
+            ISnippetRepository _repo = new SnippetRepositoryFactory().GetRepository(CodeStash3.DAL.Properties.Settings.Default.vc);
             SnippetCollection snippetCollection = new SnippetCollection();
 
             Snippet testSnippet = new Snippet() { Code = "test code", Title = "Test Snippet", Language = "Test Language" };

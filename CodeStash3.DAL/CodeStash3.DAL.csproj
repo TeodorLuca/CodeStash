@@ -49,7 +49,7 @@
     </Compile>
     <Compile Include="JsonSnippetRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SnippetRepository.cs" />
+    <Compile Include="SnippetRepositoryFactory.cs" />
     <Compile Include="SqlSnippetRepository.cs" />
   </ItemGroup>
   <ItemGroup>

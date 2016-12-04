@@ -8,6 +8,8 @@ namespace CodeStash3.DAL
 {
     public class SqlSnippetRepository : ISnippetRepository
     {
+        const string TITLE = "Title";
+
         SqlConnection connection;
         SqlCommand command;
         SqlDataReader reader;
@@ -25,10 +27,11 @@ namespace CodeStash3.DAL
         {
             List<Snippet> snippetList = new List<Snippet>();
 
-            OpenConnection();
+            connection.Open();
+
             command.Connection = connection;
 
-            command.CommandText = "SELECT * FROM Snippets ORDER BY Title ASC";
+            command.CommandText = $"SELECT * FROM Snippets ORDER BY {TITLE} ASC";
             if (null != command.ExecuteScalar())
             {
                 reader = command.ExecuteReader();
@@ -36,7 +39,7 @@ namespace CodeStash3.DAL
                 {
                     Snippet snippet = new Snippet()
                     {
-                        Title = reader["Title"].ToString(),
+                        Title = reader[TITLE].ToString(),
                         Code = reader["Code"].ToString(),
                         Language = reader["Language"].ToString()
                     };
@@ -47,25 +50,13 @@ namespace CodeStash3.DAL
             return snippetList;
         }
 
-        private void OpenConnection()
-        {
-            try
-            {
-                connection.Open();
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("SQL connection:" + ex.Message);
-            }
-        }
-
         public void UpdateAllSnippets(List<Snippet> snippets)
         {
-            OpenConnection();
+            connection.Open();
 
             foreach (var snippet in snippets)
             {
-                command.CommandText = String.Format("SELECT * FROM Snippets WHERE Title = '{0}';", snippet.Title);
+                command.CommandText = $"SELECT * FROM Snippets WHERE {TITLE} = '{snippet.Title}';";
                 if(command.ExecuteScalar() == null)
                 {
                     command.CommandText = String.Format("INSERT INTO Snippets (Title, Language, Code) VALUES('{0}','{1}','{2}');",snippet.Title, snippet.Language, snippet.Code);

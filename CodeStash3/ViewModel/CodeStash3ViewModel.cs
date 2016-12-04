@@ -9,7 +9,7 @@ using CodeStash3.Model;
 using CodeStash3.DAL;
 using System.ComponentModel;
 using System.Windows;
-
+using CodeStash3.Properties;
 
 namespace CodeStash3.ViewModel
 {
@@ -22,16 +22,23 @@ namespace CodeStash3.ViewModel
 
         public CodeStash3ViewModel()
         {
-            SnippetRepository snippetRepository;
-            BLL.SnippetCollection bllSnippetCollection;
+            try
+            {
+                BLL.ISnippetRepository snippetRepository;
+                BLL.SnippetCollection bllSnippetCollection;
 
-            snippetRepository = new SnippetRepository();
-            bllSnippetCollection = new BLL.SnippetCollection(snippetRepository);
 
-            _snippetsOriginal = new SnippetCollection(bllSnippetCollection).ToList();
-            _dirtySnippetsCollection = new ObservableCollection<Snippet>(_snippetsOriginal);
-            _languages = new LanguageCollection(new BLL.LanguageCollection(bllSnippetCollection).GenerateLanguageList());
+                snippetRepository = SnippetRepositoryFactory.GetRepository(Settings.Default.repoType);
+                bllSnippetCollection = new BLL.SnippetCollection(snippetRepository);
 
+                _snippetsOriginal = new SnippetCollection(bllSnippetCollection).ToList();
+                _dirtySnippetsCollection = new ObservableCollection<Snippet>(_snippetsOriginal);
+                _languages = new LanguageCollection(new BLL.LanguageCollection(bllSnippetCollection).GenerateLanguageList());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("An error has occured");
+            }
         }
 
         public ObservableCollection<Snippet> DirtySnippetsCollection
@@ -94,18 +101,25 @@ namespace CodeStash3.ViewModel
 
         public void SaveSnippet()
         {
-            SnippetRepository snippetRepository = new SnippetRepository();
-            BLL.SnippetCollection bllSnippetCollection = new BLL.SnippetCollection();
-
-            foreach (Snippet s in _dirtySnippetsCollection)
+            try
             {
-                BLL.Snippet snippet = new BLL.Snippet() { Code = s.Code, Title = s.Title, Language = s.Language };
-                bllSnippetCollection.Add(snippet);
+                BLL.ISnippetRepository snippetRepository = SnippetRepositoryFactory.GetRepository(Settings.Default.repoType);
+                BLL.SnippetCollection bllSnippetCollection = new BLL.SnippetCollection();
+
+                foreach (Snippet s in _dirtySnippetsCollection)
+                {
+                    BLL.Snippet snippet = new BLL.Snippet() { Code = s.Code, Title = s.Title, Language = s.Language };
+                    bllSnippetCollection.Add(snippet);
+                }
+
+                snippetRepository.UpdateAllSnippets(bllSnippetCollection);
+
+                _snippetsOriginal = _dirtySnippetsCollection.ToList();
             }
-
-            snippetRepository.UpdateAllSnippets(bllSnippetCollection);
-
-            _snippetsOriginal = _dirtySnippetsCollection.ToList();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Something went wrong");
+            }
         }
 
         public void DiscardChanges()

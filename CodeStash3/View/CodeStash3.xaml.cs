@@ -35,18 +35,25 @@ namespace CodeStash3
 
         public MainWindow()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
 
-            //ICodeStash3ViewModel viewModelIF = new CodeStash3ViewModel();
-            this.DataContext = viewModelIF;
-            CommandBinding binding = new CommandBinding(ApplicationCommands.New);
-            //binding.Executed += viewModelIF.AddCommand;
-            binding.Executed += AddCommand;
-            this.CommandBindings.Add(binding);
-            codeChanged = false;
-            codeCanChange = false;
-            languageChanged = false;
-            languageCanChange = false;
+                //ICodeStash3ViewModel viewModelIF = new CodeStash3ViewModel();
+                this.DataContext = viewModelIF;
+                CommandBinding binding = new CommandBinding(ApplicationCommands.New);
+                //binding.Executed += viewModelIF.AddCommand;
+                binding.Executed += AddCommand;
+                this.CommandBindings.Add(binding);
+                codeChanged = false;
+                codeCanChange = false;
+                languageChanged = false;
+                languageCanChange = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Something went wrong");
+            }
         }
 
         private void AddCommand(object sender, ExecutedRoutedEventArgs e)

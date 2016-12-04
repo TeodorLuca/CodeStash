@@ -38,12 +38,12 @@ namespace CodeStash3.DAL.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("sql")]
-        public string repoType {
+        public string vc {
             get {
-                return ((string)(this["repoType"]));
+                return ((string)(this["vc"]));
             }
             set {
-                this["repoType"] = value;
+                this["vc"] = value;
             }
         }
     }
